@@ -1,0 +1,101 @@
+<nav
+  *ngIf="showNavbar"
+  class="sticky top-0 z-30
+         bg-[#f6efe6]/90 backdrop-blur
+         border-b border-[#d8cfc5] h-[60px]">
+
+  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+
+    <!-- BRAND -->
+    <div
+      class="text-xl font-serif tracking-wide
+             text-[#3f3934]">
+      LoveLink
+    </div>
+
+    <!-- RIGHT -->
+    <div class="relative flex items-center gap-4">
+
+      <!-- NOTIFICATION (future use) -->
+      <button
+        class="relative text-[#6a635d] hover:text-[#3f3934] transition">
+        <!-- Bell Icon -->
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"
+          viewBox="0 0 24 24">
+          <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 01-3.46 0"></path>
+        </svg>
+
+        <!-- DOT -->
+        <span
+          class="absolute -top-1 -right-1
+                 h-2 w-2 rounded-full
+                 bg-rose-400">
+        </span>
+      </button>
+
+      <!-- USER -->
+      <button
+        class="flex items-center gap-2
+               hover:bg-[#ede5dc]
+               px-3 py-1.5 rounded-full
+               transition"
+        (click)="toggleMenu()">
+
+        <!-- AVATAR -->
+        <div
+          class="h-8 w-8 rounded-full
+                 bg-[#d8cfc5]
+                 flex items-center justify-center
+                 text-[#3f3934] text-sm font-semibold">
+          {{ username.charAt(0).toUpperCase() }}
+        </div>
+
+        <span class="text-sm text-[#3f3934]">
+          {{ username }}
+        </span>
+
+        <!-- CHEVRON -->
+        <svg class="h-4 w-4 text-[#6a635d]" fill="none" stroke="currentColor"
+          stroke-width="2" viewBox="0 0 24 24">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </button>
+
+      <!-- DROPDOWN -->
+      @if (showMenu) {
+        <div
+          class="absolute right-0 top-12
+                 w-48
+                 bg-white
+                 border border-[#d8cfc5]
+                 rounded-2xl shadow-lg
+                 overflow-hidden">
+
+          <button
+            class="w-full px-4 py-3 text-left
+                   text-sm text-[#3f3934]
+                   hover:bg-[#f6efe6]
+                   transition"
+            (click)="editProfile()">
+            Edit Profile
+          </button>
+
+          <div class="h-px bg-[#ede5dc]"></div>
+
+          <button
+            class="w-full px-4 py-3 text-left
+                   text-sm text-rose-500
+                   hover:bg-rose-50
+                   transition"
+            (click)="logout()">
+            Logout
+          </button>
+
+        </div>
+      }
+
+    </div>
+
+  </div>
+</nav>

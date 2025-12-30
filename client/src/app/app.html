@@ -1,0 +1,6 @@
+<!-- Navbar only when allowed -->
+<app-navbar *ngIf="showNavbar"></app-navbar>
+
+<!-- Page content -->
+<router-outlet></router-outlet>
+<app-bottom-nav *ngIf="showNavbar"></app-bottom-nav>

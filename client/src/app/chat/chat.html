@@ -1,0 +1,73 @@
+<div class="flex flex-col h-[calc(100vh-140px)] bg-[#f6efe6] overflow-hidden">
+  
+  <div class="flex items-center justify-between px-6 py-4 border-b border-[#d8cfc5] bg-white shrink-0 z-20 shadow-sm">
+    <div class="flex items-center gap-4">
+      <button (click)="goBack()" class="text-[#3f3934] hover:bg-[#f6efe6] p-2 rounded-full transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <div class="relative">
+        <img *ngIf="matchedUser?.imageUrl" [src]="API + matchedUser.imageUrl" 
+             class="w-10 h-10 rounded-2xl object-cover border border-[#f0e9e1]" alt="User" />
+        <div class="absolute -bottom-0.5 -right-0.5 h-3 w-3 bg-green-500 border-2 border-white rounded-full"></div>
+      </div>
+
+      <div class="flex flex-col">
+        <h4 class="font-serif text-base text-[#3f3934] leading-none mb-1">
+          {{ matchedUser?.username || matchedUser?.name }}
+        </h4>
+        <span class="text-[9px] uppercase tracking-widest text-[#a89e94] font-bold">Online</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar" #scrollContainer>
+    @for (m of messages(); track m.id) {
+      <div class="flex flex-col" [class.items-end]="m.isMine" [class.items-start]="!m.isMine">
+        
+        <div class="px-5 py-3 text-sm leading-relaxed shadow-sm max-w-[75%]"
+          [class.rounded-t-2xl]="true"
+          [class.rounded-l-2xl]="m.isMine"
+          [class.rounded-r-2xl]="!m.isMine"
+          [class.bg-[#3f3934]]="m.isMine" 
+          [class.text-white]="m.isMine"
+          [class.bg-white]="!m.isMine" 
+          [class.text-[#3f3934]]="!m.isMine" 
+          [class.border]="!m.isMine" 
+          [class.border-[#ede4d9]]="!m.isMine">
+          {{ m.content }}
+        </div>
+
+        <span class="text-[9px] uppercase tracking-tighter text-[#a89e94] mt-1.5 px-1 font-bold">
+          {{ (m.messageSent || m.id) | date:'shortTime' }}
+        </span>
+      </div>
+    }
+  </div>
+
+  <div class="bg-white border-t border-[#d8cfc5] px-6 py-4 shrink-0">
+    <div class="max-w-4xl mx-auto flex items-center gap-3">
+      <div class="flex-1 relative">
+        <input
+          [ngModel]="newMessage()"
+          (ngModelChange)="newMessage.set($event)"
+          (keydown.enter)="sendMessage()"
+          class="w-full pl-6 pr-14 py-3 bg-[#fcfaf7] border border-[#ede4d9] rounded-2xl text-[#3f3934] focus:outline-none focus:border-[#3f3934] transition-all"
+          placeholder="Write a message..."
+        />
+        
+        <button 
+          (click)="sendMessage()" 
+          [disabled]="sending() || !newMessage().trim()"
+          class="absolute right-2 top-1/2 -translate-y-1/2 bg-[#3f3934] text-white p-2 rounded-xl hover:bg-[#524a44] disabled:bg-[#d8cfc5] transition-all shadow-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

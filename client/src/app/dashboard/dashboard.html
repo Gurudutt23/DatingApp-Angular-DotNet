@@ -1,0 +1,297 @@
+@if (activeSection === 'discover') {
+<div class="pb-28 pt-7 bg-[#f6efe6] min-h-screen">
+  <div class="flex flex-col items-center gap-16">
+
+    @for (user of users(); track user.id) {
+    <section class="w-full px-8 flex justify-center">
+
+      <div
+        class="w-full max-w-5xl h-[440px]
+               bg-white border border-[#d8cfc5]
+               rounded-[2.5rem] shadow-xl
+               grid grid-cols-12 overflow-hidden">
+
+        <!-- ================= IMAGE AREA ================= -->
+        <div class="col-span-7 relative bg-[#ede4d9] h-full">
+
+          <img
+            *ngIf="getImage(user)"
+            [src]="API + getImage(user)"
+            class="absolute inset-0 h-full w-full object-cover object-center"
+            alt="Profile image" />
+
+          <div
+            *ngIf="!getImage(user)"
+            class="h-full w-full flex items-center justify-center
+                   text-[#a89e94] tracking-widest uppercase text-xs">
+            No Photo Available
+          </div>
+
+          <!-- IMAGE ARROWS -->
+          @if (user.photos?.length > 1) {
+            <div
+              class="absolute inset-0 flex items-center justify-between
+                     px-6 z-30 pointer-events-none
+                     translate-y-[-20px]">
+
+              <button
+                (click)="prevImage(user)"
+                class="pointer-events-auto
+                       bg-white/50 backdrop-blur-md
+                       hover:bg-white/70
+                       text-[#3f3934] text-2xl
+                       h-12 w-12 rounded-full
+                       flex items-center justify-center
+                       shadow-md transition">
+                ‹
+              </button>
+
+              <button
+                (click)="nextImage(user)"
+                class="pointer-events-auto
+                       bg-white/50 backdrop-blur-md
+                       hover:bg-white/70
+                       text-[#3f3934] text-2xl
+                       h-12 w-12 rounded-full
+                       flex items-center justify-center
+                       shadow-md transition">
+                ›
+              </button>
+            </div>
+          }
+        </div>
+
+        <!-- ================= INFO AREA ================= -->
+        <div class="col-span-5 flex flex-col h-full bg-white relative">
+
+          <!-- SCROLLABLE CONTENT -->
+          <div class="flex-1 overflow-y-auto px-6 pt-8 pb-4 custom-scrollbar">
+
+            <!-- NAME -->
+            <h2 class="text-3xl font-serif text-[#3f3934] mb-4 leading-tight">
+              {{ user.username }}
+            </h2>
+
+            <!-- AGE / CITY -->
+            <div class="space-y-2 mb-6">
+              <p class="text-base text-[#6a635d]">
+                <span class="font-semibold text-[#3f3934]">Age:</span>
+                {{ user.age || 22 }}
+              </p>
+
+              <p class="text-base text-[#6a635d]">
+                <span class="font-semibold text-[#3f3934]">City:</span>
+                {{ user.city || 'India' }}
+              </p>
+            </div>
+
+            <!-- ABOUT -->
+            <div class="border-t border-[#f0e9e1] pt-4">
+              <h5 class="text-[11px] uppercase tracking-widest
+                         text-[#a89e94] mb-2 font-bold">
+                About
+              </h5>
+
+              <p class="text-sm text-[#6a635d] leading-relaxed">
+                {{ user.bio || 'This user hasn’t written a bio yet.' }}
+              </p>
+            </div>
+
+          </div>
+
+          <!-- ================= LIKE BUTTON ================= -->
+          <div class="px-12 pb-8 pt-4 bg-white border-t border-gray-50">
+
+            <button
+              class="w-full py-4 rounded-[1.5rem]
+                     bg-[#3f3934] text-white
+                     font-semibold tracking-[0.3em]
+                     text-xs
+                     shadow-[0_10px_30px_-10px_rgba(63,57,52,0.4)]
+                     hover:bg-[#524a44]
+                     hover:shadow-[0_15px_35px_-10px_rgba(63,57,52,0.5)]
+                     transition-all duration-500
+                     active:scale-[0.95]
+                     disabled:bg-[#e5ddd3]
+                     disabled:text-[#9c948b]
+                     disabled:cursor-not-allowed"
+              [disabled]="isLiked(user.id)"
+              (click)="likeUser(user)">
+
+              {{ isLiked(user.id) ? 'LIKED' : 'LIKE PROFILE' }}
+
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+    }
+
+  </div>
+</div>
+}
+
+@if (activeSection === 'likes') {
+<div class="max-w-7xl mx-auto pt-10 px-8 pb-28">
+  <h3 class="text-3xl font-serif tracking-wide mb-8 text-[#3f3934]">Likes Received</h3>
+
+  @if (likesReceived().length === 0) {
+    <div class="flex flex-col items-center justify-center py-20 bg-white/50 rounded-[2.5rem] border border-dashed border-[#d8cfc5]">
+      <p class="text-[#6a635d]">No likes received yet. Keep shining!</p>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      @for (u of likesReceived(); track u.id) {
+        <div class="group rounded-[2rem] border border-[#d8cfc5] bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+          <div class="relative h-64 overflow-hidden">
+            <img [src]="API + u.imageUrl" class="h-full w-full object-cover blur-lg scale-110" />
+            <div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+              <span class="bg-[#3f3934]/80 backdrop-blur-sm text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase shadow-lg">
+                Reveal on Like
+              </span>
+            </div>
+          </div>
+          
+          <div class="p-6 text-center">
+            <h4 class="text-lg font-serif text-[#3f3934] blur-sm select-none mb-1">{{ u.username }}</h4>
+            <p class="text-xs text-[#6a635d] blur-sm select-none mb-5 uppercase tracking-widest">
+              {{ u.age }} • {{ u.city }}
+            </p>
+            <button (click)="likeBack(u)" class="w-full py-3 rounded-xl bg-[#3f3934] text-white text-xs font-bold tracking-[0.1em] hover:bg-[#524a44] transition-colors uppercase">
+              LIKE BACK
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+}
+
+@if (activeSection === 'liked') {
+<div class="max-w-7xl mx-auto pt-10 px-8 pb-28">
+  <h3 class="text-3xl font-serif tracking-wide mb-8 text-[#3f3934]">Liked Profiles</h3>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    @for (u of likedUsers(); track u.id) {
+      <div class="rounded-[2rem] border border-[#d8cfc5] bg-white overflow-hidden shadow-sm">
+        <div class="h-64 overflow-hidden">
+          <img [src]="API + u.imageUrl" class="h-full w-full object-cover" />
+        </div>
+        <div class="p-6">
+          <h4 class="text-lg font-serif text-[#3f3934] mb-1">{{ u.username }}</h4>
+          <p class="text-xs text-[#6a635d] mb-3 font-semibold">{{ u.age }} • {{ u.city }}</p>
+          <p class="text-sm text-[#6a635d] line-clamp-2 leading-relaxed italic">
+            "{{ u.bio || 'No bio available' }}"
+          </p>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+}
+
+@if (activeSection === 'matches') {
+<div class="max-w-7xl mx-auto pt-10 px-8 pb-28">
+  <h3 class="text-3xl font-serif tracking-wide mb-8 text-[#3f3934]">Your Matches</h3>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    @for (u of matches(); track u.id) {
+      <div class="rounded-[2rem] border border-[#d8cfc5] bg-white overflow-hidden shadow-sm hover:border-[#3f3934] transition-colors duration-300">
+        <div class="h-64 overflow-hidden">
+          <img [src]="API + u.imageUrl" class="h-full w-full object-cover" />
+        </div>
+        <div class="p-6">
+          <h4 class="text-lg font-serif text-[#3f3934] mb-1">{{ u.username }}</h4>
+          <p class="text-xs text-[#6a635d] mb-5 uppercase tracking-widest">{{ u.city }}</p>
+          <button (click)="openChat(u.id)" class="w-full py-3 rounded-xl border border-[#3f3934] text-[#3f3934] text-xs font-bold tracking-widest hover:bg-[#3f3934] hover:text-white transition-all">
+            OPEN CHAT
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+}
+@if (activeSection === 'profile') {
+<div class="min-h-screen bg-[#f6efe6] pt-10 pb-32 px-4">
+  <div class="max-w-3xl mx-auto bg-white rounded-[2.5rem] shadow-sm border border-[#d8cfc5] overflow-hidden">
+    
+    <div class="pt-12 pb-8 flex flex-col items-center border-b border-[#f6efe6]">
+      <div class="relative group">
+        <div class="h-40 w-40 rounded-full border-4 border-white shadow-xl overflow-hidden bg-[#fcfaf7]">
+          @if (currentUser) {
+            <div class="h-full w-full flex items-center justify-center text-[#3f3934] text-5xl font-serif">
+              {{ currentUser[0] | uppercase }}
+            </div>
+          }
+        </div>
+        <button class="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#3f3934]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </button>
+      </div>
+      <button class="mt-4 px-6 py-2 bg-[#f6efe6] text-[#3f3934] text-xs font-bold tracking-widest rounded-full hover:bg-[#ede4d9] transition">
+        CHANGE PHOTO
+      </button>
+    </div>
+
+    <div class="p-10">
+      <div class="flex justify-between items-center mb-8">
+        <h3 class="text-lg font-bold text-[#3f3934] tracking-tight">Upload More Photos</h3>
+        <button class="text-red-400 text-xs font-bold hover:text-red-600 transition">DELETE PROFILE</button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        <div class="space-y-1">
+          <label class="text-[10px] uppercase tracking-widest text-[#a89e94] font-bold px-1">Username</label>
+          <input type="text" [value]="currentUser" class="w-full px-5 py-3 bg-[#fcfaf7] border border-[#ede4d9] rounded-xl text-[#3f3934] focus:outline-none focus:border-[#3f3934] transition" placeholder="Username">
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[10px] uppercase tracking-widest text-[#a89e94] font-bold px-1">About Me</label>
+          <input type="text" class="w-full px-5 py-3 bg-[#fcfaf7] border border-[#ede4d9] rounded-xl text-[#3f3934] focus:outline-none focus:border-[#3f3934] transition" placeholder="Tell us about yourself">
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[10px] uppercase tracking-widest text-[#a89e94] font-bold px-1">Age</label>
+          <input type="number" class="w-full px-5 py-3 bg-[#fcfaf7] border border-[#ede4d9] rounded-xl text-[#3f3934] focus:outline-none focus:border-[#3f3934] transition" placeholder="22">
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[10px] uppercase tracking-widest text-[#a89e94] font-bold px-1">City</label>
+          <input type="text" class="w-full px-5 py-3 bg-[#fcfaf7] border border-[#ede4d9] rounded-xl text-[#3f3934] focus:outline-none focus:border-[#3f3934] transition" placeholder="e.g. India">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 md:grid-cols-6 gap-3 mb-12">
+        <div class="aspect-square bg-[#f6efe6] rounded-xl border-2 border-dashed border-[#d8cfc5] flex items-center justify-center cursor-pointer hover:bg-[#ede4d9] transition group">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#a89e94] group-hover:text-[#3f3934]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </div>
+        @for (i of [1,2,3,4,5]; track i) {
+          <div class="aspect-square bg-[#fcfaf7] rounded-xl border border-[#ede4d9] flex items-center justify-center cursor-pointer hover:border-[#3f3934] transition text-[#d8cfc5]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+        }
+      </div>
+
+      <div class="flex justify-center">
+        <button (click)="editProfile()" class="w-full md:w-64 py-4 bg-[#3f3934] text-white rounded-2xl font-bold tracking-[0.2em] text-sm shadow-xl hover:bg-[#524a44] transform active:scale-95 transition-all">
+          SAVE PROFILE
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+}
+
+

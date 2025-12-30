@@ -1,0 +1,25 @@
+@keyframes toastIn {
+  from { 
+    opacity: 0; 
+    transform: translate(-50%, -20px); /* Start slightly higher */
+  }
+  to { 
+    opacity: 1; 
+    transform: translate(-50%, 0); /* End at natural position */
+  }
+}
+
+.animate-toastIn {
+  /* Using -50% in transform to keep it perfectly centered */
+  animation: toastIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Red Validation States (Same as before) */
+.border-red-300 {
+  border-color: #fca5a5 !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.05);
+}
+
+.bg-red-50 {
+    background-color: #fff1f2 !important;
+}

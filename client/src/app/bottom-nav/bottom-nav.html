@@ -1,0 +1,94 @@
+@if (showNav) {
+  <nav
+    class="fixed bottom-4 left-1/2 -translate-x-1/2
+           w-[92%] max-w-5xl
+           bg-[#f6efe6]/95 backdrop-blur
+           border border-[#d8cfc5]
+           rounded-2xl shadow-lg z-50">
+
+    <div class="flex justify-around items-center py-3">
+
+      <!-- Discover -->
+      <button
+        (click)="go('discover')"
+        class="flex flex-col items-center gap-1
+               text-[#6a635d] hover:text-[#3f3934] transition">
+        <!-- Magnifying Glass -->
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"
+          viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span class="text-[11px] tracking-widest">DISCOVER</span>
+      </button>
+
+      <!-- Likes -->
+      <button
+        (click)="go('likes')"
+        class="flex flex-col items-center gap-1
+               text-[#6a635d] hover:text-[#3f3934] transition">
+        <!-- Bell -->
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"
+          viewBox="0 0 24 24">
+          <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 01-3.46 0"></path>
+        </svg>
+        <span class="text-[11px] tracking-widest">LIKES</span>
+      </button>
+
+      <!-- Liked -->
+      <button
+        (click)="go('liked')"
+        class="flex flex-col items-center gap-1
+               text-[#6a635d] hover:text-[#3f3934] transition">
+        <!-- Heart -->
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"
+          viewBox="0 0 24 24">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/>
+        </svg>
+        <span class="text-[11px] tracking-widest">LIKED</span>
+      </button>
+
+      <!-- Matches -->
+      <button
+        (click)="go('matches')"
+        class="flex flex-col items-center gap-1
+               text-[#6a635d] hover:text-[#3f3934] transition">
+        <!-- Sparkles -->
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"
+          viewBox="0 0 24 24">
+          <path d="M5 3v4M3 5h4M19 17v4M17 19h4M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
+        </svg>
+        <span class="text-[11px] tracking-widest">MATCHES</span>
+      </button>
+
+      <!-- Chats -->
+      <button
+        (click)="goChats()"
+        class="flex flex-col items-center gap-1
+               text-[#6a635d] hover:text-[#3f3934] transition">
+        <!-- Chat Bubble -->
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"
+          viewBox="0 0 24 24">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+        <span class="text-[11px] tracking-widest">CHATS</span>
+      </button>
+
+      <!-- Profile -->
+      <button
+        (click)="goProfile()"
+        class="flex flex-col items-center gap-1
+               text-[#6a635d] hover:text-[#3f3934] transition">
+        <!-- User -->
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"
+          viewBox="0 0 24 24">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="text-[11px] tracking-widest">PROFILE</span>
+      </button>
+
+    </div>
+  </nav>
+}

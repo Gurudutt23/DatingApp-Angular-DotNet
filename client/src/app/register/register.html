@@ -1,0 +1,67 @@
+<div class="min-h-screen bg-[#f6efe6] flex items-center justify-center px-4 relative overflow-hidden">
+
+  @if (message) {
+  <div class="fixed top-10 left-1/2 -translate-x-1/2 z-[100] animate-toastIn">
+    <div [class.bg-[#3f3934]]="isError" 
+         [class.bg-[#4a5d4e]]="!isError"
+         class="text-[#f6efe6] px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-white/10 min-w-[300px] justify-center">
+      
+      <div [class.bg-red-500/20]="isError" [class.bg-green-500/20]="!isError" class="p-2 rounded-lg shrink-0">
+        @if (isError) {
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        } @else {
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        }
+      </div>
+      <span class="text-[10px] font-bold tracking-[0.2em] uppercase whitespace-nowrap">{{ message }}</span>
+    </div>
+  </div>
+}
+
+  <div class="w-full max-w-md bg-white border border-[#d8cfc5] rounded-[3rem] shadow-2xl px-10 py-14 transition-all duration-300">
+    <div class="text-center mb-10">
+        <h1 class="text-4xl font-serif text-[#3f3934] mb-2 tracking-tight">LoveLink</h1>
+        <p class="text-[10px] uppercase tracking-[0.2em] text-[#a89e94] font-bold">Start your story</p>
+    </div>
+
+    <form (submit)="register($event)" class="space-y-6">
+      <div>
+        <label class="block text-[10px] uppercase tracking-widest text-[#a89e94] mb-2 font-bold ml-1">Username</label>
+        <input class="w-full rounded-2xl border px-6 py-4 text-sm transition-all duration-300 bg-[#fcfaf7] focus:outline-none"
+          [class.border-red-300]="isError && !username"
+          [class.bg-red-50]="isError && !username"
+          [class.border-[#ede4d9]]="!isError || username"
+          [(ngModel)]="username" name="username" placeholder="Username" />
+      </div>
+
+      <div>
+        <label class="block text-[10px] uppercase tracking-widest text-[#a89e94] mb-2 font-bold ml-1">Password</label>
+        <input type="password" class="w-full rounded-2xl border px-6 py-4 text-sm transition-all duration-300 bg-[#fcfaf7] focus:outline-none"
+          [class.border-red-300]="isError && password.length < 6"
+          [class.bg-red-50]="isError && password.length < 6"
+          [class.border-[#ede4d9]]="!isError || password.length >= 6"
+          [(ngModel)]="password" name="password" placeholder="Password" />
+      </div>
+
+      <button type="submit" [disabled]="isLoading"
+        class="w-full py-5 rounded-2xl bg-[#3f3934] text-white font-bold tracking-[0.3em] text-xs shadow-xl hover:bg-[#524a44] transition-all active:scale-[0.97] flex items-center justify-center">
+        @if (isLoading) {
+          <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3"></span>
+          CREATING ACCOUNT...
+        } @else {
+          REGISTER
+        }
+      </button>
+    </form>
+
+    <div class="mt-12 text-center">
+      <button type="button" class="text-xs font-bold text-[#6a635d] uppercase tracking-widest" (click)="goToLogin()">
+        Already have an account? <span class="text-[#3f3934] hover:underline ml-1">Login</span>
+      </button>
+    </div>
+  </div>
+</div>
